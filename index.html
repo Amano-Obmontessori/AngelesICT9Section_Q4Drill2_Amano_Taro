@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Q4 Drill 2</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+  <style>
+    body {
+      background: #b59336;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .card {
+      max-width: 380px;
+      width: 100%;
+      padding: 25px;
+      background: #fff;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+      border-radius: 12px;
+      text-align: center;
+    }
+    h1 {
+      color: #ff7f00;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+    }
+    p {
+      font-size: 0.95rem;
+      color: #555;
+      font-weight: bold;
+    }
+    input {
+      text-align: center;
+    }
+    #result {
+      font-weight: bold;
+      margin-top: 20px;
+      font-size: 1.1rem;
+    }
+    .btn-custom {
+      background-color: #ff7f00;
+      border: none;
+    }
+    .btn-custom:hover {
+      background-color: #e56f00;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <h1>Heat Index Checker</h1>
+    <p>Enter Temperature (°C) and Humidity (%)</p>
+
+    <div class="mb-3">
+      <input type="number" id="temperature" class="form-control" placeholder="Temperature (°C)" min="20" max="50">
+    </div>
+    <div class="mb-3">
+      <input type="number" id="humidity" class="form-control" placeholder="Humidity (%)" min="30" max="100">
+    </div>
+
+    <button class="btn btn-custom w-100 text-white" onclick="checkHeatIndex()">Check Heat Index</button>
+
+    <h2 id="result"></h2>
+  </div>
+
+  <script>
+  function checkHeatIndex() {
+    let temperature = parseFloat(document.getElementById("temperature").value);
+    let humidity = parseFloat(document.getElementById("humidity").value);
+
+    let heatIndex = temperature + (0.33 * humidity) - 4;
+    let status = "";
+    let colorClass = "text-dark";
+
+    switch (true) {
+      case (isNaN(temperature) || isNaN(humidity)):
+        status = "Please enter valid numbers.";
+        colorClass = "text-muted";
+        break;
+      case (heatIndex <= 27):
+        status = "Comfortable / Cool";
+        colorClass = "text-success";
+        break;
+      case (heatIndex >= 28 && heatIndex <= 32):
+        status = "Warm";
+        colorClass = "text-primary";
+        break;
+      case (heatIndex >= 33 && heatIndex <= 37):
+        status = "Hot";
+        colorClass = "text-warning";
+        break;
+      case (heatIndex >= 38 && heatIndex <= 41):
+        status = "Very Hot / Caution";
+        colorClass = "text-danger";
+        break;
+      case (heatIndex >= 42):
+        status = "Extreme Heat / Danger";
+        colorClass = "text-danger";
+        break;
+      default:
+        status = "Values out of range. Please check inputs.";
+        colorClass = "text-muted";
+    }
+
+    document.getElementById("result").innerHTML =
+      `<span class="${colorClass}">Heat Index: ${isNaN(heatIndex) ? "--" : heatIndex.toFixed(2)} °C<br>Status: ${status}</span>`;
+  }
+</script>
+
+
+</body>
+</html>
